@@ -2,6 +2,11 @@
 SEED = 0
 RESET_RNG_ON_GAME_RESTART = False
 
+# pygame constants
+WINDOW_SIZE = 600
+FPS_CAP = 60
+GAP_SIZE = 5
+
 # game configuration
 GRID_SIZE = 4
 STARTING_TILES = 2

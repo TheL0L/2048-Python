@@ -225,5 +225,5 @@ class Game:
     def getScore(self):
         return self.__score
 
-    def getMovesCount(self):
+    def getMoves(self):
         return self.__moves

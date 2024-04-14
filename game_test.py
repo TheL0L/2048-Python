@@ -1,25 +1,18 @@
-from game import Game
+from game import Game, Direction
 import pygame
 import constants
 from grid_window import draw_grid
 
 def main():
-    # Set parameters
-    GAP_SIZE = 5
-    WINDOW_SIZE = 500
-
-    grid = [[0, 4, 0, 0],
-            [0, 2, 0, 0],
-            [0, 2, 0, 0],
-            [0, 4, 0, 0]]
-    game = Game(grid)
-
     pygame.init()
-    screen = pygame.display.set_mode((WINDOW_SIZE, WINDOW_SIZE))
-    pygame.display.set_caption("2048-Python")
+    screen = pygame.display.set_mode((constants.WINDOW_SIZE, constants.WINDOW_SIZE))
+    engine_clock = pygame.time.Clock()
 
-    updated = True
+    game = Game()
+
     while True:
+        pygame.display.set_caption(f"2048-Python   |   [R]estart   |   Moves = {len(game.getMoves())}   |   Score = {game.getScore()}")
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -28,22 +21,19 @@ def main():
                 # reset
                 if event.key == pygame.K_r:
                     game.restartGame()
-                    updated = True
                 # moves
-                # if event.key == pygame.K_UP:
-                #     updated += game.move(GameBoard.Direction.UP)
-                # if event.key == pygame.K_DOWN:
-                #     updated += game.move(GameBoard.Direction.DOWN)
-                # if event.key == pygame.K_LEFT:
-                #     updated += game.move(GameBoard.Direction.LEFT)
-                # if event.key == pygame.K_RIGHT:
-                #     updated += game.move(GameBoard.Direction.RIGHT)
+                if event.key == pygame.K_UP:
+                    game.move(Direction.UP)
+                if event.key == pygame.K_DOWN:
+                    game.move(Direction.DOWN)
+                if event.key == pygame.K_LEFT:
+                    game.move(Direction.LEFT)
+                if event.key == pygame.K_RIGHT:
+                    game.move(Direction.RIGHT)
         
-        if bool(updated):
-            # Draw the game grid
-            draw_grid(screen, constants.GRID_SIZE, GAP_SIZE, WINDOW_SIZE, game.getGrid())
-            updated = False
-        
+        # Draw the game grid
+        draw_grid(screen, constants.GRID_SIZE, constants.GAP_SIZE, constants.WINDOW_SIZE, game.getGrid())
+        engine_clock.tick(constants.FPS_CAP)
         pygame.display.flip()
 
 
