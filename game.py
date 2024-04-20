@@ -72,14 +72,14 @@ class Grid:
 
 
 class Game:
-    def __init__(self, grid = None):
+    def __init__(self, grid = None, score = 0):
         if grid is not None:
             self.__grid = Grid(grid)
         else:
             self.__grid = Grid()
             self.__addStartingTiles()
         
-        self.__score = 0
+        self.__score = max(0, score)
         self.__moves = []
         self.__hasEnded = False
 
@@ -151,13 +151,26 @@ class Game:
         }
         return vectors[direction]
     
+    def insertTile(self, value, position):
+        # this method is explicitly used for the expectimax algorithm, just to make things quicker
+        self.__grid.insertTile(Tile(value), position)
+
+    def attempt_move(self, direction):
+        valid_move = self.move(direction)
+        if valid_move:
+            # insert a new random tile
+            self.__insertRandomTile()
+            # finalize the tile states
+            self.__grid.finalizeGrid()
+            # save the move
+            self.__moves.append(direction)
+            # check if the game has ended this turn
+            if not self.hasValidMoves():
+                self.__hasEnded = True
+        return valid_move
+
     def move(self, direction):
-        if not self.hasValidMoves():
-            self.__hasEnded = True
-            return False
-        
-        # save the move
-        self.__moves.append(direction)
+        valid_move = False
 
         # setup the move steps
         vector = self.__getDirectionVector(direction)
@@ -186,7 +199,8 @@ class Game:
                     self.__grid.insertTile(merged, obstacle)
                     # remove the current position tile
                     self.__grid.removeTile(position)
-
+                    # indicate that the move is valid
+                    valid_move = True
                     # increase the score
                     self.__score += merged.getValue()
                 else:
@@ -197,13 +211,11 @@ class Game:
                 current_tile = self.__grid.getCell(position)
                 self.__grid.insertTile(current_tile, farthest)
                 self.__grid.removeTile(position)
+                # indicate that the move is valid
+                valid_move = True
             # otherwise currently can not do anything with this tile
 
-        # insert a new random tile
-        self.__insertRandomTile()
-
-        # finalize the tile states
-        self.__grid.finalizeGrid()
+        return valid_move
     
     def __buildTraversals(self, vector):
         # build a list of position to follow during the Move operation

@@ -29,13 +29,13 @@ def main():
                 # moves
                 if not game.hasEnded():
                     if event.key == pygame.K_UP:
-                        game.move(Direction.UP)
+                        game.attempt_move(Direction.UP)
                     if event.key == pygame.K_DOWN:
-                        game.move(Direction.DOWN)
+                        game.attempt_move(Direction.DOWN)
                     if event.key == pygame.K_LEFT:
-                        game.move(Direction.LEFT)
+                        game.attempt_move(Direction.LEFT)
                     if event.key == pygame.K_RIGHT:
-                        game.move(Direction.RIGHT)
+                        game.attempt_move(Direction.RIGHT)
         
         # Draw the game grid
         grid_surface = draw_grid(FONT_30, game.getGrid())
