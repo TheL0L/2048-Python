@@ -16,15 +16,11 @@ To use this repository, follow these steps:
 2. **Install Dependencies**: Install the project dependencies by running `pip install -r requirements.txt`.
     - In case you're planning on training models, consider installing a version of `torch` that supports GPU usage, you can find more details [here](https://pytorch.org/get-started/locally/).
 
-3. **Choose an Algorithm**: Decide which algorithm you want to test:
-   - To run the game using the Expectimax algorithm, execute `python expectimax.py`.
-   - To use the custom neural network, run `python neural_network.py`.
+3. **Optional: Modify Constants**: If desired, you can modify the constants in `constants.py` to customize the game settings according to your preferences.
 
-4. **Optional: Modify Constants**: If desired, you can modify the constants in `constants.py` to customize the game settings according to your preferences.
+4. **Optional: Modify Agent**: You can choose the AI agent to play the game by modifying the `AGENT` variable in `app.py`.
 
-5. **Optional: Modify Agent**: You can choose the AI agent to play the game by modifying the `AGENT` variable in `app.py`.
-
-6. **Run the Application**: Start the game by running `app.py`.
+5. **Run the Application**: Start the game by running `app.py`.
 
 
 ## License
